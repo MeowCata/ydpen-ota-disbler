@@ -144,7 +144,7 @@ dos2unix /userdisk/skip_re/skip_login.sh
 > [!WARNING]
 > 本部分涉及到 CPU 降频(*Downclocking*)，**可能导致轻微卡顿与性能下降**，但 **可以延长续航时间**。请权衡考虑并使用
 
-执行 `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies` 可以得到 CPU 支持的频率，使用 `watch -n 1 cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq` 可以监视当前 CPU 频率。观察发现 CPU 频率在 `[600MHz <-> 816MHz <-> 1.104GHz]` 区间内跳动
+执行 `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies` 可以得到 CPU 支持的频率，使用 `watch -n 1 cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq` 可以监视当前 CPU 频率。观察发现 CPU 频率在 `[600MHz <-> 816MHz <-> 1.104GHz <-> 1.6GHz]` 区间内跳动
 
 可以查看可用的 CPU 频率调整模式：
 ```bash
@@ -153,9 +153,9 @@ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
 ```
 * **ondemand**: 按需模式，默认使用这个，频率不定，功耗平衡
 * **userplace**: 锁定特定频率（不推荐，调高了耗电，调低了卡顿，而且档位数太少）
-* **performance**: 按最高频率 *1.1GHz* 运行，真的很流畅，真的很耗电
+* **performance**: 高频率运行，真的很流畅，真的很耗电
 
-综上，我应用了比较平衡的调整，*ondemand 模式 + 锁定最高频率到 816Mhz (默认最高 1.1Ghz)* 
+综上，我应用了比较平衡的调整，*ondemand 模式 + 锁定最高频率到 816Mhz (默认最高 1.6Ghz)* 
 ```bash
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # 限制最高频 816MHz
@@ -166,7 +166,7 @@ echo 816000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 
 ⬆️该图测于词典笔连接adb，不运行任何应用
 
-上图可能暗示了有道词典笔广泛吐槽点的问题所在：熄屏听歌不怎么耗电，反而放一边待机耗电量非常可观。这可能因为息屏时 CPU 频率维持在 1.1GHz(或更低？不可能低于816MHz)，从而耗电，而听歌所带来的 CPU 消耗非常小，让频率反而到了更低的 600MHz？以上说法待核实
+上图可能暗示了有道词典笔广泛吐槽点的问题所在：熄屏听歌不怎么耗电，反而放一边待机耗电量非常可观。这可能因为息屏时 CPU 频率维持在中位数值，从而耗电，而听歌所带来的 CPU 消耗非常小，让频率反而到了更低的数值？以上说法待核实
 
 ## Block Logs Transferring
 > [!WARNING]
