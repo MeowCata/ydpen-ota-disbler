@@ -156,6 +156,8 @@ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
 * **performance**: 高频率运行，真的很流畅，真的很耗电
 
 综上，我应用了比较平衡的调整，*ondemand 模式 + 锁定最高频率到 816Mhz (默认最高 1.6Ghz)* 
+
+> 注：以下代码需写入开机自启，否则重启失效
 ```bash
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # 限制最高频 816MHz
