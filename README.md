@@ -127,6 +127,7 @@ mount --bind /userdata/skip_ota.sh /usr/bin/ota_mgr
 mount --bind /userdata/skip_ota.sh /usr/bin/runOtaMgr
 pkill -f runOtaMgr
 killall -9 ota_mgr
+touch /tmp/.adb_auth_verified
 touch /userdata/boot_success_log
 EOF
 ```
@@ -156,4 +157,9 @@ route del -net 117.135.207.0 netmask 255.255.255.0 reject
 
 也可以在词典笔 设置-关于-日志上报 试着上报一下，连着网却显示上报失败说明你也成功啦
 
-*有趣的是，ban了上述ip后，之前 netstat 扫到的所有连接都消失了，但词典笔联网应用均可正常使用*
+以上说的是一次性方案，也想开机自启的话在上面文件末尾添加：
+```bash
+route add -net 117.135.207.0 netmask 255.255.255.0 reject 2>/dev/null
+ifconfig wlan0 down
+ifconfig wlan0 up
+```
