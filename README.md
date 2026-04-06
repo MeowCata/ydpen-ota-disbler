@@ -43,7 +43,7 @@ ps -w
 ```
 好！现在我们知道了 `userdata` `userdisk` `input-event-daemon.conf` 都是支持 `rw` 的，那可以考虑 `Bind Mount`，手动把我们要写的杀掉OTA更新的脚本挂载上去
 
-开始干吧，首先在 `userdata` 文件夹创建 `skip_ota.sh` 并让它啥也不干：
+开始干吧，首先在 `userdata` 文件夹创建 `skip_ota.sh` 并让它摆烂：
 ```bash
 echo "#!/bin/sh" > /userdata/skip_ota.sh
 echo "exit 0" >> /userdata/skip_ota.sh
@@ -142,9 +142,11 @@ dos2unix /userdisk/skip_re/skip_login.sh
 
 ## Make Your Pen Enduring
 > [!WARNING]
-> 本部分涉及到 CPU 降频(*Downclocking*)，**可能导致轻微卡顿与性能下降**，但 **可以延长续航时间**。请权衡考虑并使用
+> 本部分涉及到 CPU 调频，可能导致卡顿/性能下降，但 可以延长续航时间。请权衡考虑并使用
+>
+> **务必遵循教程 不要擅自拉高频 词典笔挂了别怪我没提醒**
 
-执行 `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies` 可以得到 CPU 支持的频率，使用 `watch -n 1 cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq` 可以监视当前 CPU 频率。观察发现 CPU 频率在 `[600MHz <-> 816MHz <-> 1.104GHz <-> 1.6GHz]` 区间内跳动
+执行 `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies` 可以得到 CPU 支持的频率，使用 `watch -n 1 cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq` 可以监视当前 CPU 频率。默认情况下观察，发现 CPU 频率在 `[600MHz <-> 816MHz <-> 1.104GHz <-> 1.6GHz]` 区间内跳动
 
 可以查看可用的 CPU 频率调整模式：
 ```bash
@@ -163,7 +165,7 @@ echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # 限制最高频 816MHz
 echo 816000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 ```
-总体测下来感觉还好，没有比原先卡很多，但电池续航一定会更长
+总体测下来感觉还过得去，没有比原先卡很多，但电池续航会更长，也算值了
 <img width="350" height="85" alt="image" src="https://github.com/user-attachments/assets/7f5bb9d2-688c-4eb6-8956-0e06eff582a4" />
 
 ⬆️该图测于词典笔连接adb，不运行任何应用
