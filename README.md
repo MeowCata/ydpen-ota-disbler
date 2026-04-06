@@ -134,3 +134,23 @@ chmod +x /userdisk/skip_re/skip_login.sh
 dos2unix /userdisk/skip_re/skip_login.sh
 ```
 最后 `reboot` 即可体验没有OTA更新的快乐 这才是自由的词典笔！
+
+
+## 更新！
+看到远古项目 [PenMod](https://github.com/PenUniverse/PenMods)有防日志上传机制，考虑到新版词典笔会保存所有的 `UserAction` 到 `\userdata\applog`，为了保护隐私，可选择禁用上传日志（包括自动上传）：
+
+非常简单，执行 `netstat` 看当前所有的连接，发现 `117.135.207.132` 这个ip十分可疑，不管那么多先ban了（我猜它就是日志上传的服务器ip）：
+```bash
+route add -net 117.135.207.0 netmask 255.255.255.0 reject 2>/dev/null
+```
+可拦截该ip所有网段，如果你哪天不忍心了就执行下面这个命令删掉：
+```bash
+route del -net 117.135.207.0 netmask 255.255.255.0 reject
+```
+通过 `route -n` 查看当前路由表（类似于管理路由规则）
+
+执行完后可以在终端试着 `ping 117.135.207.132` ，显示 `ping: connect: No route to host` 你就成功了
+
+也可以在词典笔 设置-关于-日志上报 试着上报一下，连着网却显示上报失败说明你也成功啦
+
+*有趣的是，ban了上述ip后，之前 netstat 扫到的所有连接都消失了，但词典笔联网应用均可正常使用*
