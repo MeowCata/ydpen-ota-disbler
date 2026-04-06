@@ -161,7 +161,7 @@ echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # 限制最高频 816MHz
 echo 816000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 ```
-总体测下来感觉还好，没有可感的比原先卡，但电池续航一定会更长
+总体测下来感觉还好，没有比原先卡很多，但电池续航一定会更长
 <img width="350" height="85" alt="image" src="https://github.com/user-attachments/assets/7f5bb9d2-688c-4eb6-8956-0e06eff582a4" />
 
 ⬆️该图测于词典笔连接adb，不运行任何应用
